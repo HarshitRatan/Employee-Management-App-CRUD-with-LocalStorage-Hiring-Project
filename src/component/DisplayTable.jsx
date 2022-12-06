@@ -101,7 +101,7 @@ export default function DisplayTable(props) {
                                                                 width: "120px"
                                                             }}
                                                             onClick={() => {
-                                                                handleUpdate(row.phoneNumber)
+                                                                handleUpdate(row.id)
                                                             }}
                                                         >
                                                             <Stack
@@ -125,7 +125,7 @@ export default function DisplayTable(props) {
                                                             variant="contained"
                                                             color="error"
                                                             onClick={() => {
-                                                                handleDelete(row.phoneNumber)
+                                                                handleDelete(row.id)
                                                             }}
                                                         >
                                                             <Stack
