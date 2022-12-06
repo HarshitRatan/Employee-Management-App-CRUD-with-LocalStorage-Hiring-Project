@@ -43,6 +43,7 @@ const Home = () => {
       if (result.isConfirmed) {
         const deleteData = data.filter((val) => val.id !== id);
         setData(deleteData);
+        localStorage.setItem("empData", JSON.stringify(deleteData));
         Swal.fire(
           'Deleted!',
           'Record has been deleted.',
@@ -51,6 +52,15 @@ const Home = () => {
       }
     })
   }
+
+  React.useEffect(() => {
+    const getData = JSON.parse(localStorage.getItem("empData"));
+    if (getData == null) {
+      setData([])
+    } else {
+      setData(getData);
+    }
+  }, [])
 
   return (
     <Container sx={{ marginTop: '100px', marginBottom: '50px' }}>

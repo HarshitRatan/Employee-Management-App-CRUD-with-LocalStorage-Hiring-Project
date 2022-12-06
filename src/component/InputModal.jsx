@@ -51,8 +51,10 @@ export default function InputModal(props) {
         console.log("Post Data ::: ", postData);
         if (data.length === 0) {
             setData([postData]);
+            localStorage.setItem("empData", JSON.stringify([postData]));
         } else {
             setData([...data, postData]);
+            localStorage.setItem("empData", JSON.stringify([...data, postData]));
         }
         Swal.fire(
             'Record has been added successfully !!',
@@ -88,6 +90,7 @@ export default function InputModal(props) {
             if (result.isConfirmed) {
                 console.log("Updated Data :::: ", myData);
                 setData(myData);
+                localStorage.setItem("empData", JSON.stringify(myData));
                 Swal.fire('Record has been Updated successfully !!', '', 'success')
             } else if (result.isDenied) {
                 Swal.fire('Changes are not saved', '', 'info')
