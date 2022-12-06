@@ -8,6 +8,9 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 const columns = [
     {
@@ -22,7 +25,7 @@ const columns = [
     },
     {
         id: 'email',
-        label: 'Email',
+        label: 'Employee Email',
         align: undefined,
         format: (value) => value.toLocaleString('en-US'),
     },
@@ -55,7 +58,7 @@ export default function DisplayTable(props) {
     };
 
     return (
-        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+        <Paper sx={{ width: '100%', overflow: 'hidden', marginTop: '50px' }}>
             <TableContainer>
                 <Table stickyHeader>
                     <TableHead>
@@ -92,23 +95,49 @@ export default function DisplayTable(props) {
                                                                 backgroundColor: '#2196f3',
                                                                 float: 'left',
                                                                 marginRight: '20px',
-                                                                fontWeight: '600'
+                                                                fontWeight: '600',
+                                                                borderRadius: '10px',
+                                                                height: "50px",
+                                                                width: "120px"
                                                             }}
                                                             onClick={() => {
                                                                 handleUpdate(row.phoneNumber)
                                                             }}
                                                         >
-                                                            Update
+                                                            <Stack
+                                                                direction="row"
+                                                                justifyContent="space-between"
+                                                                alignItems="center"
+                                                                spacing={2}
+                                                                sx={{ width: '100%' }}
+                                                            >
+                                                                <EditIcon sx={{ marginRight: '10px' }} />
+                                                                Update
+                                                            </Stack>
                                                         </Button>
                                                         <Button
-                                                            sx={{ fontWeight: '600' }}
+                                                            sx={{
+                                                                fontWeight: '600',
+                                                                borderRadius: '10px',
+                                                                height: "50px",
+                                                                width: "120px"
+                                                            }}
                                                             variant="contained"
                                                             color="error"
                                                             onClick={() => {
                                                                 handleDelete(row.phoneNumber)
                                                             }}
                                                         >
-                                                            Delete
+                                                            <Stack
+                                                                direction="row"
+                                                                justifyContent="space-between"
+                                                                alignItems="center"
+                                                                spacing={2}
+                                                                sx={{ width: '100%' }}
+                                                            >
+                                                                <DeleteForeverIcon sx={{ marginRight: '10px' }} />
+                                                                Delete
+                                                            </Stack>
                                                         </Button>
                                                     </TableCell>
                                                 );
