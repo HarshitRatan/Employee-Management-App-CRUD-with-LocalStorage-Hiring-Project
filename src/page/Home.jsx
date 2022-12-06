@@ -1,43 +1,36 @@
 import React from "react";
-import { Button, IconButton, Stack, Container, Box } from "@mui/material";
-import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import Container from "@mui/material/Container";
+import DisplayTable from "../component/DisplayTable";
 
 const Home = () => {
+  const [data, setData] = React.useState([]);
+
+  function createData(firstName, lastName, email, phoneNumber) {
+    return { firstName, lastName, email, phoneNumber };
+  }
+
+  const handleUpdate = (phoneNumber) => {
+    console.log("Update user Ph with :: ", phoneNumber);
+  }
+  const handleDelete = (phoneNumber) => {
+    console.log("Delete user Ph with :: ", phoneNumber);
+  }
+
+  React.useEffect(() => {
+    const tempData = [
+      createData('harshit', 'shukla', 'harshit.shukla@gmail.com', '123455456450'),
+      createData('Shreya', 'Singh', 'shreya.singh@gmail.com', '9415093948'),
+      createData('deepak', 'verma', 'deepak.verma@gmail.com', '8726916679'),
+      createData('Rahul', 'Mishra', 'rahul.mishra@gmail.com', '4521456398'),
+    ];
+    setData(tempData);
+  }, [])
+
   return (
-    <Box sx={{ marginTop: '100px' }}>
-      <h1>This is HOME Page</h1>
-      <Stack
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-        spacing={2}
-      >
-        <Button variant="contained" component="label">
-          Upload
-          <input hidden accept="image/*" multiple type="file" />
-        </Button>
-        <IconButton
-          color="primary"
-          aria-label="upload picture"
-          component="label"
-        >
-          <input hidden accept="image/*" type="file" />
-          <PhotoCamera />
-        </IconButton>
-      </Stack>
-      <Container>
-        <Box sx={{ my: 2 }}>
-          {[...new Array(35)]
-            .map(
-              () => `Cras mattis consectetur purus sit amet fermentum.
-Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`,
-            )
-            .join('\n')}
-        </Box>
-      </Container>
-    </Box>
+    <Container sx={{ marginTop: '100px', marginBottom: '50px', border: '2px solid red' }}>
+      
+      <DisplayTable rows={data} handleUpdate={handleUpdate} handleDelete={handleDelete} />
+    </Container>
   );
 };
 
