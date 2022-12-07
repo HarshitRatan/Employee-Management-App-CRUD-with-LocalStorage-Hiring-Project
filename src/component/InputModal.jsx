@@ -230,11 +230,12 @@ export default function InputModal(props) {
                                         updateFlag && (
                                             <Button
                                                 disabled={
-                                                    !firstName ||
-                                                    !lastName ||
-                                                    phoneNumberError ||
-                                                    !email ||
-                                                    emailError
+                                                    (firstName &&
+                                                        lastName &&
+                                                        phoneNumber &&
+                                                        !phoneNumberError &&
+                                                        email &&
+                                                        !emailError) ? false : true
                                                 }
                                                 variant="contained"
                                                 color="success"
@@ -263,11 +264,12 @@ export default function InputModal(props) {
                                         !updateFlag && (
                                             <Button
                                                 disabled={
-                                                    !firstName ||
-                                                    !lastName ||
-                                                    phoneNumberError ||
-                                                    !email ||
-                                                    emailError
+                                                    (firstName &&
+                                                        lastName &&
+                                                        phoneNumber &&
+                                                        !phoneNumberError &&
+                                                        email &&
+                                                        !emailError) ? false : true
                                                 }
                                                 variant="contained"
                                                 color="success"
