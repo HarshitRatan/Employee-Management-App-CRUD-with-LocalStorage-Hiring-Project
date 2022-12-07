@@ -30,6 +30,11 @@ export default function InputModal(props) {
         lastName, setLastName, email, setEmail,
         phoneNumber, setPhoneNumber, updateFlag, setUpdateFlag } = props;
 
+    const [firstNameError, setFirstNameError] = React.useState(null);
+    const [lastNameError, setLastNameError] = React.useState(null);
+    const [emailError, setEmailError] = React.useState(null);
+    const [phoneNumberError, setPhoneNumberError] = React.useState(null);
+
     function createData(firstName, lastName, email, phoneNumber) {
         const id = uuidv4();
         return { id, firstName, lastName, email, phoneNumber };
@@ -41,14 +46,35 @@ export default function InputModal(props) {
         setPhoneNumber("");
         setUpdateFlag("");
     }
+
+    const setErrorInitialValue = () => {
+        setFirstNameError(false);
+        setLastNameError(false);
+        setEmailError(false);
+        setPhoneNumberError(false);
+    }
     const handleClose = () => {
         setOpen(false);
         setAllStateInitialValue();
+        setErrorInitialValue();
+    }
+    const validateEmail = () => {
+        const regEmail = /[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,8}(.[a-z{2,8}])?/g;
+        if (!email || !regEmail.test(email)) {
+            setEmailError(true);
+        } else {
+            setEmailError(false);
+        }
+    }
+    const validatePhoneNumber = () => {
+        setPhoneNumberError(true);
+        if (phoneNumber && phoneNumber.length === 9) {
+            setPhoneNumberError(false);
+        }
     }
 
     const handleAddRecord = () => {
         const postData = createData(firstName, lastName, email, phoneNumber);
-        console.log("Post Data ::: ", postData);
         if (data.length === 0) {
             setData([postData]);
             localStorage.setItem("empData", JSON.stringify([postData]));
@@ -63,10 +89,10 @@ export default function InputModal(props) {
         )
         setOpen(false);
         setAllStateInitialValue();
+        setErrorInitialValue();
     }
 
     const handleUpdateRecord = () => {
-        console.log("Recorde update", recordId);
         const myData = data.map(x => {
             if (x.id === recordId) {
                 return {
@@ -88,7 +114,6 @@ export default function InputModal(props) {
             denyButtonText: `Don't Update`,
         }).then((result) => {
             if (result.isConfirmed) {
-                console.log("Updated Data :::: ", myData);
                 setData(myData);
                 localStorage.setItem("empData", JSON.stringify(myData));
                 Swal.fire('Record has been Updated successfully !!', '', 'success')
@@ -98,6 +123,7 @@ export default function InputModal(props) {
         })
         setOpen(false);
         setAllStateInitialValue();
+        setErrorInitialValue();
     }
 
     return (
@@ -120,37 +146,55 @@ export default function InputModal(props) {
                             />
                             <CardContent>
                                 <TextField
+                                    required
                                     margin="normal"
                                     label="First Name"
                                     variant="outlined"
                                     fullWidth
                                     value={firstName}
-                                    onChange={(e) => setFirstName(e.target.value)}
+                                    onChange={(e) => {
+                                        setFirstName(e.target.value);
+                                    }}
                                 />
+                                {firstNameError && <p style={{ color: 'red' }}>This Field is Required!</p>}
                                 <TextField
+                                    required
                                     margin="normal"
                                     label="Last Name"
                                     variant="outlined"
                                     fullWidth
                                     value={lastName}
-                                    onChange={(e) => setLastName(e.target.value)}
+                                    onChange={(e) => {
+                                        setLastName(e.target.value);
+                                    }}
                                 />
+                                {lastNameError && <p style={{ color: 'red' }}>This Field is Required!</p>}
                                 <TextField
+                                    required
                                     margin="normal"
                                     label="Email"
                                     variant="outlined"
                                     fullWidth
                                     value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    onChange={(e) => {
+                                        setEmail(e.target.value)
+                                        validateEmail();
+                                    }}
                                 />
+                                {emailError && <p style={{ color: 'red' }}>Enter a Valid Email!</p>}
                                 <TextField
+                                    required
                                     margin="normal"
                                     label="Phone Number"
                                     variant="outlined"
                                     fullWidth
                                     value={phoneNumber}
-                                    onChange={(e) => setPhoneNumber(e.target.value)}
+                                    onChange={(e) => {
+                                        setPhoneNumber(e.target.value);
+                                        validatePhoneNumber();
+                                    }}
                                 />
+                                {phoneNumberError && <p style={{ color: 'red' }}>Enter a valid Phone number(10 digits only)!</p>}
                             </CardContent>
                             <CardActions disableSpacing>
                                 <Stack
@@ -185,6 +229,13 @@ export default function InputModal(props) {
                                     {
                                         updateFlag && (
                                             <Button
+                                                disabled={
+                                                    !firstName ||
+                                                    !lastName ||
+                                                    phoneNumberError ||
+                                                    !email ||
+                                                    emailError
+                                                }
                                                 variant="contained"
                                                 color="success"
                                                 sx={{
@@ -211,6 +262,13 @@ export default function InputModal(props) {
                                     {
                                         !updateFlag && (
                                             <Button
+                                                disabled={
+                                                    !firstName ||
+                                                    !lastName ||
+                                                    phoneNumberError ||
+                                                    !email ||
+                                                    emailError
+                                                }
                                                 variant="contained"
                                                 color="success"
                                                 sx={{
@@ -240,6 +298,6 @@ export default function InputModal(props) {
                     </Box>
                 </Fade>
             </Modal>
-        </div>
+        </div >
     );
 }
